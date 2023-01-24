@@ -12,49 +12,93 @@
 </head>
 
 <body>
-  <h1>
+  <h1 class="text-center">
     Customer Sales Data
   </h1>
-  <ul>
-    <% sales.forEach(function(user) { %>
-      <li class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
-        <span>
-          <%= user.customer.email %> -
-        </span>
-        <span>
-          <%= user.customer.gender %> -
-        </span>
-        <span>
-          <%= user.customer.age %>
-        </span>
-        <div>
-          Customer Rating: <%= user.customer.satisfaction %>
-        </div>
-        <div>Sales: <%= user.saleDate.toString().substring(4,21) %> - <%= user.storeLocation %>
-        </div>
-        <div>Purchase Method: <%= user.purchaseMethod%>
-        </div>
-        <% if(user.couponUsed) { %>
-          <div>Coupon was Used</div>
-          <% } %>
-            <ul>
-              <%user.items.forEach(function(item) { %>
-                <li class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
-                  <div>
-                    <%= item.name %>
-                  </div>
-                  <div>
-                    Price: <%= item.price %>
-                  </div>
-                  <div>
-                    Quantity: <%= item.quantity %>
-                  </div>
-                </li>
-                <% }); %>
-            </ul>
-      </li>
-      <% }); %>
-  </ul>
+  <button class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#modal">Add Customer Data</button>
+  <div class="modal fade" id="modal">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        <form>
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" required>
+          <label for="gender" class="form-label">Gender</label>
+          <select id="gender" class="form-select">
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+          <label for="age" class="form-label">Age</label>
+          <input type="number" id="age" class="form-control" required>
+          <label for="rating" class="form-label">Rating</label>
+          <input type="number" id="rating" class="form-control" required>
+          <label for="method" class="form-label">Purchase Method</label>
+          <select id="method" class="form-select">
+            <option>Online</option>
+            <option>In store</option>
+            <option>Phone</option>
+          </select>
+          <div class="form-check">
+            <input type="checkbox" id="coupon" class="form-check-input">
+            <label for="coupon" class="form-check-label">Used Coupon</label>
+          </div>
+          <button class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <ul class="row g-3">
+      <% sales.forEach(function(user) { %>
+        <li
+          class="col-sm-12 col-md-6 col-lg-3 p-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+          <span class="fw-bold">
+            <%= user.customer.email %> -
+          </span>
+          <span>
+            <%= user.customer.gender %> -
+          </span>
+          <span>
+            <%= user.customer.age %>
+          </span>
+          <div>
+            Customer Rating: <%= user.customer.satisfaction %>
+          </div>
+          <div>Sales: <%= user.saleDate.toString().substring(4,21) %> - <%= user.storeLocation %>
+          </div>
+          <div>Purchase Method: <%= user.purchaseMethod%>
+          </div>
+          <% if(user.couponUsed) { %>
+            <div class="text-warning">Coupon was Used</div>
+            <% } %>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%user.items.forEach(function(item) { %>
+                    <tr>
+                      <td class="fw-bold">
+                        <%= item.name %>
+                      </td>
+                      <td>
+                        $<%= item.price %>
+                      </td>
+                      <td>
+                        <%= item.quantity %>
+                      </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+              </table>
+              <button class="btn btn-danger">Delete</button>
+        </li>
+        <% }); %>
+    </ul>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
